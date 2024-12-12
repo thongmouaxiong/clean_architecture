@@ -5,7 +5,7 @@ abstract class Usecase<T, P> {
   Future<Either<AppError, T>> call(P param);
 }
 
-abstract class UsecaseNoP<T> {
+abstract class UsecaseNoParam<T> {
   Future<Either<AppError, T>> call();
 }
 

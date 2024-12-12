@@ -12,9 +12,7 @@ import 'package:injectable/injectable.dart';
 class PostRepositoryImpl extends PostRepository {
   final PostRemoteDataSource _postRemote;
 
-  PostRepositoryImpl({
-    required PostRemoteDataSource postRemote,
-  }) : _postRemote = postRemote;
+  PostRepositoryImpl(this._postRemote);
 
   @override
   Future<Either<AppError, PostModel?>> createPost({
@@ -55,8 +53,9 @@ class PostRepositoryImpl extends PostRepository {
   }
 
   @override
-  Future<Either<AppError, PostModel?>> updatePost(
-      {required PostModel post,}) async {
+  Future<Either<AppError, PostModel?>> updatePost({
+    required PostModel post,
+  }) async {
     try {
       final result = await _postRemote.updatePost(post: post);
       return Right(result);

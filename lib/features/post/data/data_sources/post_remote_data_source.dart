@@ -16,7 +16,7 @@ abstract class PostRemoteDataSource {
 class PostRemoteDataSourceImpl extends PostRemoteDataSource {
   final ApiService _api;
 
-  PostRemoteDataSourceImpl({required ApiService api}) : _api = api;
+  PostRemoteDataSourceImpl(this._api);
 
   @override
   Future<PostModel?> createPost({required PostModel post}) async {
