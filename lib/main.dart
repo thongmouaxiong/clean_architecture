@@ -4,7 +4,7 @@ import 'package:clean_architecture/core/router/app_router.dart';
 import 'package:clean_architecture/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   di.dependencyInjection();
   runApp(const MyApp());
 }
