@@ -1,5 +1,7 @@
+import 'package:clean_architecture/core/constants/enum/alert_type.dart';
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
+import 'package:clean_architecture/core/utils/app_dialog.dart';
 import 'package:clean_architecture/core/utils/extension/context_extension.dart';
 import 'package:clean_architecture/core/utils/extension/double_extension.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
@@ -15,16 +17,29 @@ class CreatePostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final postCubit = context.read<PostCubit>();
+    final title = postCubit.post == null ? "Create" : "Update";
     return BlocConsumer<PostCubit, PostState>(
       listener: (context, state) {
         if (state.status == StateStatus.success) {
-          AppNavigator.pop();
+          AppDialog.alert(
+            title: "Success",
+            desc: "$title post completed.",
+            onDismissed: () {
+              AppNavigator.pop();
+            },
+          );
+        } else if (state.status == StateStatus.error) {
+          AppDialog.alert(
+            type: AlertType.error,
+            title: state.error?.title ?? "",
+            desc: state.error?.msg ?? "",
+          );
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Create Post"),
+            title: Text("$title Post"),
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(
@@ -54,7 +69,7 @@ class CreatePostPage extends StatelessWidget {
                       height: 48,
                       alignment: Alignment.center,
                       child: Text(
-                        "Create",
+                        title,
                         style: context.textTheme.bodyLarge?.copyWith(
                           color: Colors.white,
                         ),
