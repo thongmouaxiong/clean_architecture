@@ -12,7 +12,7 @@ abstract class ApiService {
   @GET(ApiPath.postPath)
   Future<List<PostModel>> getPosts();
 
-  @GET(ApiPath.getPostByIdPath)
+  @GET(ApiPath.postByIdPath)
   Future<PostModel?> getPostById({
     @Path("id") required int id,
   });
@@ -22,7 +22,7 @@ abstract class ApiService {
     @Body() required PostModel post,
   });
 
-  @PUT(ApiPath.postPath)
+  @PUT(ApiPath.postByIdPath)
   Future<PostModel?> updatePost({
     @Path("id") required int id,
     @Body() required PostModel post,

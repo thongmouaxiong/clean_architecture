@@ -1,4 +1,6 @@
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
+import 'package:clean_architecture/core/router/app_navigator.dart';
+import 'package:clean_architecture/core/router/route_name.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_state.dart';
@@ -33,7 +35,10 @@ class PostPage extends StatelessWidget {
                           return PostItemWidget(
                             post: post,
                             onTap: (post) {
-                              print("DEV: $post");
+                              AppNavigator.pushNamed(
+                                routeName: RouteName.createPostPage,
+                                arguments: post,
+                              );
                             },
                           );
                         },
@@ -48,7 +53,9 @@ class PostPage extends StatelessWidget {
                   ),
                 ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              AppNavigator.pushNamed(routeName: RouteName.createPostPage);
+            },
             backgroundColor: Colors.blue[400],
             child: const Icon(Icons.add),
           ),

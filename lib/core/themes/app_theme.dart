@@ -22,6 +22,11 @@ class AppTheme {
         labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
       inputDecorationTheme: InputDecorationTheme(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue, width: 1.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.blue, width: 1.5),
           borderRadius: BorderRadius.circular(8),
