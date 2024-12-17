@@ -4,6 +4,7 @@ import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/utils/app_dialog.dart';
 import 'package:clean_architecture/core/utils/extension/context_extension.dart';
 import 'package:clean_architecture/core/utils/extension/double_extension.dart';
+import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_state.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +20,8 @@ class CreatePostPage extends StatelessWidget {
     final postCubit = context.read<PostCubit>();
     final title = postCubit.post == null ? "Create" : "Update";
     return BlocConsumer<PostCubit, PostState>(
-      listener: (context, state) {
-        if (state.status == StateStatus.success) {
-          AppDialog.alert(
-            title: "Success",
-            desc: "$title post completed.",
-            onDismissed: () {
-              AppNavigator.pop();
-            },
-          );
-        } else if (state.status == StateStatus.error) {
+      listener: (context, state) async {
+        if (state.status == StateStatus.error) {
           AppDialog.alert(
             type: AlertType.error,
             title: state.error?.title ?? "",
@@ -63,7 +56,16 @@ class CreatePostPage extends StatelessWidget {
                   ),
                   const Gap(40),
                   ElevatedButton(
-                    onPressed: postCubit.onCreatePost,
+                    onPressed: () async {
+                      Post? newPost = await postCubit.onCreatePost();
+                      if (newPost != null) {
+                        await AppDialog.alert(
+                          title: "Success",
+                          desc: "$title post completed.",
+                        );
+                        AppNavigator.pop(newPost);
+                      }
+                    },
                     child: Container(
                       width: 100.width,
                       height: 48,

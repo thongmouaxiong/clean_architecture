@@ -24,7 +24,7 @@ class PostItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${post.id}. ${post.title}",
+            post.title ?? "",
             style: context.textTheme.bodyLarge,
           ),
           Text(

@@ -8,12 +8,11 @@ import 'package:gap/gap.dart';
 class AppDialog {
   static final BuildContext? _context = AppNavigator.context;
 
-  static void show({
+  static Future<void> show({
     required Widget child,
     bool barrierDismissible = true,
     double? height,
     EdgeInsetsGeometry? padding = const EdgeInsets.all(10),
-    VoidCallback? onDismissed,
   }) async {
     if (_context != null) {
       await showDialog(
@@ -48,19 +47,16 @@ class AppDialog {
           );
         },
       );
-      onDismissed?.call();
     }
   }
 
-  static void alert({
+  static Future<void> alert({
     AlertType type = AlertType.success,
     String title = "",
     String desc = "",
-    VoidCallback? onDismissed,
-  }) {
-    show(
+  }) async {
+    await show(
       height: 30.height,
-      onDismissed: onDismissed,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

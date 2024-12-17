@@ -1,6 +1,8 @@
+import 'package:clean_architecture/core/constants/enum/alert_type.dart';
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/router/route_name.dart';
+import 'package:clean_architecture/core/utils/app_dialog.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_state.dart';
@@ -13,10 +15,20 @@ class PostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final postCubit = context.read<PostCubit>();
     return BlocConsumer<PostCubit, PostState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.status == StateStatus.error) {
+          AppDialog.alert(
+              type: AlertType.error, title: "Error", desc: "An error occured.");
+        }
+      },
       builder: (context, state) {
         return Scaffold(
+          appBar: AppBar(
+            title: const Text("Post"),
+            leading: const SizedBox.shrink(),
+          ),
           body: state.status == StateStatus.loading
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -34,11 +46,14 @@ class PostPage extends StatelessWidget {
                           Post post = state.posts[index];
                           return PostItemWidget(
                             post: post,
-                            onTap: (post) {
-                              AppNavigator.pushNamed(
+                            onTap: (post) async {
+                              final data = await AppNavigator.pushNamed(
                                 routeName: RouteName.createPostPage,
                                 arguments: post,
                               );
+                              if (data != null && data is Post) {
+                                postCubit.resetPosts(post: data);
+                              }
                             },
                           );
                         },
@@ -53,8 +68,13 @@ class PostPage extends StatelessWidget {
                   ),
                 ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              AppNavigator.pushNamed(routeName: RouteName.createPostPage);
+            onPressed: () async {
+              final data = await AppNavigator.pushNamed(
+                routeName: RouteName.createPostPage,
+              );
+              if (data != null && data is Post) {
+                postCubit.resetPosts(post: data);
+              }
             },
             backgroundColor: Colors.blue[400],
             child: const Icon(Icons.add),

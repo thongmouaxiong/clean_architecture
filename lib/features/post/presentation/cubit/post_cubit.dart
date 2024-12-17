@@ -73,7 +73,7 @@ class PostCubit extends Cubit<PostState> {
     }
   }
 
-  Future<void> onCreatePost() async {
+  Future<Post?> onCreatePost() async {
     emit(state.copyWith(status: StateStatus.loading));
 
     PostModel postData = PostModel.fromJson(formKey.formData ?? {});
@@ -96,9 +96,25 @@ class PostCubit extends Cubit<PostState> {
         status: StateStatus.error,
         error: result.left,
       ));
-    } else {
-      print("DEV: res ${result.right}");
-      emit(state.copyWith(status: StateStatus.success));
+      return null;
     }
+
+    emit(state.copyWith(status: StateStatus.success));
+    return result.right;
+  }
+
+  void resetPosts({required Post post}) {
+    emit(state.copyWith(status: StateStatus.loading));
+    List<Post> listPost = state.posts;
+
+    int existPostIndex = listPost.indexWhere((item) => item.id == post.id);
+
+    if (existPostIndex >= 0) {
+      listPost[existPostIndex] = post.toModel();
+    } else {
+      listPost.insert(0, post.toModel());
+    }
+
+    emit(state.copyWith(status: StateStatus.done, posts: listPost));
   }
 }

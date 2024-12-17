@@ -8,23 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
-  static Route<MaterialPageRoute> generateRoute(RouteSettings settings) {
+  static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case RouteName.postPage:
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider<PostCubit>(
-            create: (_) => sl<PostCubit>()..init(),
-            child: const PostPage(),
-          );
-        });
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<PostCubit>(
+              create: (_) => sl<PostCubit>()..init(),
+              child: const PostPage(),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.postPage),
+        );
       case RouteName.createPostPage:
         final Post? postArg = settings.arguments as Post?;
-        return MaterialPageRoute(builder: (_) {
-          return BlocProvider<PostCubit>(
-            create: (_) => sl<PostCubit>()..setPostData(post: postArg),
-            child: const CreatePostPage(),
-          );
-        });
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<PostCubit>(
+              create: (_) => sl<PostCubit>()..setPostData(post: postArg),
+              child: const CreatePostPage(),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.createPostPage),
+        );
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(
