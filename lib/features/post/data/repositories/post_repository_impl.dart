@@ -3,6 +3,7 @@ import 'package:clean_architecture/core/global/entities/app_error.dart';
 import 'package:clean_architecture/core/utils/extension/dio_errror_extension.dart';
 import 'package:clean_architecture/features/post/data/data_sources/post_remote_data_source.dart';
 import 'package:clean_architecture/features/post/data/models/post_model.dart';
+import 'package:clean_architecture/features/post/domain/entities/comment.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/domain/repositories/post_repository.dart';
 import 'package:dio/dio.dart';
@@ -59,6 +60,20 @@ class PostRepositoryImpl extends PostRepository {
   }) async {
     try {
       final result = await _postRemote.updatePost(post: post);
+      return Right(result);
+    } on DioException catch (err) {
+      return Left(err.getError());
+    } catch (err) {
+      return const Left(AppError(msg: ErrorMessage.defaultMessage));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<Comment>>> getCommentsByPostId({
+    required int postId,
+  }) async {
+    try {
+      final result = await _postRemote.getCommentsByPostId(postId: postId);
       return Right(result);
     } on DioException catch (err) {
       return Left(err.getError());
