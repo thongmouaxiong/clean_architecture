@@ -47,12 +47,24 @@ class CreatePostPage extends StatelessWidget {
                   FormBuilderTextField(
                     name: "title",
                     decoration: const InputDecoration(hintText: "title"),
+                    validator: (value) {
+                      if(value != null){
+                        return null;
+                      }
+                      return "Enter title";
+                    },
                   ),
                   const Gap(10),
                   FormBuilderTextField(
                     name: "body",
                     maxLines: 4,
                     decoration: const InputDecoration(hintText: "body"),
+                    validator: (value) {
+                      if(value != null){
+                        return null;
+                      }
+                      return "Enter body";
+                    },
                   ),
                   const Gap(40),
                   ElevatedButton(

@@ -74,6 +74,10 @@ class PostCubit extends Cubit<PostState> {
   }
 
   Future<Post?> onCreatePost() async {
+    if (!formKey.validated) {
+      return null;
+    }
+
     emit(state.copyWith(status: StateStatus.loading));
 
     PostModel postData = PostModel.fromJson(formKey.formData ?? {});
