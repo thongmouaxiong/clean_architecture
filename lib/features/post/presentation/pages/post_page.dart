@@ -48,7 +48,7 @@ class PostPage extends StatelessWidget {
                             post: post,
                             onTap: (post) async {
                               final data = await AppNavigator.pushNamed(
-                                routeName: RouteName.createPostPage,
+                                routeName: RouteName.postDetailPage,
                                 arguments: post,
                               );
                               if (data != null && data is Post) {

@@ -3,6 +3,7 @@ import 'package:clean_architecture/core/router/route_name.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/pages/create_post_page.dart';
+import 'package:clean_architecture/features/post/presentation/pages/post_detail_page.dart';
 import 'package:clean_architecture/features/post/presentation/pages/post_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,21 @@ class AppRouter {
             return BlocProvider<PostCubit>(
               create: (_) => sl<PostCubit>()..setPostData(post: postArg),
               child: const CreatePostPage(),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.createPostPage),
+        );
+      case RouteName.postDetailPage:
+        final Post? postArg = settings.arguments as Post?;
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<PostCubit>(
+              create: (_) => sl<PostCubit>()
+                ..setPostData(post: postArg)
+                ..loadComments(),
+              child: PostDetailPage(
+                post: postArg ?? const Post(),
+              ),
             );
           },
           settings: const RouteSettings(name: RouteName.createPostPage),

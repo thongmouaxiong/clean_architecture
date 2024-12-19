@@ -29,7 +29,7 @@ abstract class ApiService {
     @Body() required PostModel post,
   });
 
-  @PUT(ApiPath.commentPath)
+  @GET(ApiPath.commentPath)
   Future<List<CommentModel>> getCommentsByPostId({
     @Path("id") required int postId,
   });
