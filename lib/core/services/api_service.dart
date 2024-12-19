@@ -1,4 +1,5 @@
 import 'package:clean_architecture/core/constants/api_path.dart';
+import 'package:clean_architecture/features/post/data/models/comment_model.dart';
 import 'package:clean_architecture/features/post/data/models/post_model.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -26,5 +27,10 @@ abstract class ApiService {
   Future<PostModel?> updatePost({
     @Path("id") required int id,
     @Body() required PostModel post,
+  });
+
+  @GET(ApiPath.commentPath)
+  Future<List<CommentModel>> getCommentsByPostId({
+    @Path("id") required int postId,
   });
 }
