@@ -1,5 +1,5 @@
 import 'package:clean_architecture/core/DI/dependency_injection.dart' as di;
-import 'package:clean_architecture/core/global/pages/splash_screen.dart';
+import 'package:clean_architecture/features/home/presentation/pages/splash_screen.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/router/app_router.dart';
 import 'package:clean_architecture/core/themes/app_theme.dart';
