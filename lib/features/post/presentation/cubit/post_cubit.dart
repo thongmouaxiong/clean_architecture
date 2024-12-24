@@ -1,9 +1,11 @@
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
+import 'package:clean_architecture/core/constants/error_message.dart';
 import 'package:clean_architecture/core/global/entities/app_error.dart';
 import 'package:clean_architecture/core/utils/extension/form_state_extension.dart';
 import 'package:clean_architecture/features/post/data/models/post_model.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/domain/usecases/create_post_usecase.dart';
+import 'package:clean_architecture/features/post/domain/usecases/get_comments_usecase.dart';
 import 'package:clean_architecture/features/post/domain/usecases/get_post_by_id_usecase.dart';
 import 'package:clean_architecture/features/post/domain/usecases/get_posts_usecase.dart';
 import 'package:clean_architecture/features/post/domain/usecases/update_post_usecase.dart';
@@ -20,11 +22,13 @@ class PostCubit extends Cubit<PostState> {
   final GetPostByIdUsecase _getPostByIdUsecase;
   final CreatePostUsecase _createPostUsecase;
   final UpdatePostUsecase _updatePostUsecase;
+  final GetCommentsUsecase _getCommentsUsecase;
   PostCubit(
     this._getPostsUsecase,
     this._getPostByIdUsecase,
     this._createPostUsecase,
     this._updatePostUsecase,
+    this._getCommentsUsecase,
   ) : super(const PostState());
 
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
@@ -74,6 +78,10 @@ class PostCubit extends Cubit<PostState> {
   }
 
   Future<Post?> onCreatePost() async {
+    if (!formKey.validated) {
+      return null;
+    }
+
     emit(state.copyWith(status: StateStatus.loading));
 
     PostModel postData = PostModel.fromJson(formKey.formData ?? {});
@@ -116,5 +124,27 @@ class PostCubit extends Cubit<PostState> {
     }
 
     emit(state.copyWith(status: StateStatus.done, posts: listPost));
+  }
+
+  Future<void> loadComments({Post? postId}) async {
+    if (post?.id != null) {
+      emit(state.copyWith(status: StateStatus.loading));
+      final resComment = await _getCommentsUsecase(post!.id!);
+      if (resComment.isRight) {
+        emit(state.copyWith(
+          status: StateStatus.done,
+          comments: resComment.right,
+        ));
+        return;
+      }
+    }
+
+    emit(state.copyWith(
+      status: StateStatus.error,
+      error: const AppError(
+        title: ErrorMessage.defaultMessage,
+        msg: "Not found post detail !",
+      ),
+    ));
   }
 }
