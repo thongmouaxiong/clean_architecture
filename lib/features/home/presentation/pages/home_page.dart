@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
                 child: const PostPage(),
               ),
               BlocProvider<AlbumCubit>(
-                create: (context) => sl<AlbumCubit>(),
+                create: (_) => sl<AlbumCubit>()..init(),
                 child: const AlbumPage(),
               ),
             ],

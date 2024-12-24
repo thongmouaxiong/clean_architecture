@@ -1,5 +1,5 @@
 import 'package:clean_architecture/core/constants/enum/bottom_bar_tab.dart';
-import 'package:clean_architecture/core/utils/extension/double_extension.dart';
+import 'package:clean_architecture/core/utils/extension/num_extension.dart';
 import 'package:clean_architecture/features/home/presentation/widgets/bottom_bar_item.dart';
 import 'package:flutter/material.dart';
 
