@@ -1,7 +1,7 @@
 import 'package:clean_architecture/core/constants/enum/alert_type.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/utils/extension/context_extension.dart';
-import 'package:clean_architecture/core/utils/extension/double_extension.dart';
+import 'package:clean_architecture/core/utils/extension/num_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

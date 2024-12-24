@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      AppNavigator.pushNamed(routeName: RouteName.postPage);
+      AppNavigator.pushNamed(routeName: RouteName.homePage);
     });
     super.initState();
   }

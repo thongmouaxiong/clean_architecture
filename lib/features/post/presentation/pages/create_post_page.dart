@@ -3,7 +3,7 @@ import 'package:clean_architecture/core/constants/enum/state_status.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/utils/app_dialog.dart';
 import 'package:clean_architecture/core/utils/extension/context_extension.dart';
-import 'package:clean_architecture/core/utils/extension/double_extension.dart';
+import 'package:clean_architecture/core/utils/extension/num_extension.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_state.dart';

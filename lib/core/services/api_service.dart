@@ -1,4 +1,6 @@
 import 'package:clean_architecture/core/constants/api_path.dart';
+import 'package:clean_architecture/features/album/data/models/album_model.dart';
+import 'package:clean_architecture/features/album/data/models/photo_model.dart';
 import 'package:clean_architecture/features/post/data/models/comment_model.dart';
 import 'package:clean_architecture/features/post/data/models/post_model.dart';
 import 'package:dio/dio.dart';
@@ -33,4 +35,15 @@ abstract class ApiService {
   Future<List<CommentModel>> getCommentsByPostId({
     @Path("id") required int postId,
   });
+
+  @GET(ApiPath.albumPath)
+  Future<List<AlbumModel>> getAlbums();
+
+  @GET(ApiPath.photosByAlbumIdPath)
+  Future<List<PhotoModel>> getPhotosByAlbumId({
+    @Path("albumId") required int albumId,
+  });
+
+  @GET(ApiPath.photosPath)
+  Future<List<PhotoModel>> getAllPhotos();
 }

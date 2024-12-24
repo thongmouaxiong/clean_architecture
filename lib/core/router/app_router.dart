@@ -1,5 +1,10 @@
 import 'package:clean_architecture/core/DI/dependency_injection.dart';
 import 'package:clean_architecture/core/router/route_name.dart';
+import 'package:clean_architecture/features/album/domain/entities/album.dart';
+import 'package:clean_architecture/features/album/presentation/cubit/album_cubit.dart';
+import 'package:clean_architecture/features/album/presentation/pages/photo_page.dart';
+import 'package:clean_architecture/features/home/presentation/cubit/home_cubit.dart';
+import 'package:clean_architecture/features/home/presentation/pages/home_page.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/pages/create_post_page.dart';
@@ -11,6 +16,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppRouter {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case RouteName.homePage:
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<HomeCubit>(
+              create: (context) => sl<HomeCubit>(),
+              child: const HomePage(),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.homePage),
+        );
       case RouteName.postPage:
         return MaterialPageRoute(
           builder: (_) {
@@ -43,6 +58,17 @@ class AppRouter {
               child: PostDetailPage(
                 post: postArg ?? const Post(),
               ),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.createPostPage),
+        );
+      case RouteName.photoPage:
+        final Album albumArg = settings.arguments as Album;
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<AlbumCubit>(
+              create: (_) => sl<AlbumCubit>()..loadPhotos(album: albumArg),
+              child: PhotoPage(album: albumArg),
             );
           },
           settings: const RouteSettings(name: RouteName.createPostPage),
