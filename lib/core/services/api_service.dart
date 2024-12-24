@@ -43,4 +43,7 @@ abstract class ApiService {
   Future<List<PhotoModel>> getPhotosByAlbumId({
     @Path("albumId") required int albumId,
   });
+
+  @GET(ApiPath.photosPath)
+  Future<List<PhotoModel>> getAllPhotos();
 }

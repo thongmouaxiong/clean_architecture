@@ -25,14 +25,23 @@ class AppImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget errorWidget = errorImage ??
-        const Center(
-          child: Icon(Icons.error, size: 30),
+        Container(
+          width: width,
+          height: height,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(
+            Icons.image,
+            size: 40,
+          ),
         );
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.circular(10),
       child: url?.isNotEmpty == true
-          ? errorWidget
-          : CachedNetworkImage(
+          ? CachedNetworkImage(
               width: width,
               height: height,
               imageUrl: url!,
@@ -45,7 +54,8 @@ class AppImage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               },
-            ),
+            )
+          : errorWidget,
     );
   }
 }

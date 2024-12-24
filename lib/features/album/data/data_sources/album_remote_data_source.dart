@@ -6,6 +6,8 @@ import 'package:injectable/injectable.dart';
 abstract class AlbumRemoteDataSource {
   Future<List<AlbumModel>> getAlbums();
 
+  Future<List<PhotoModel>> getAllPhotos();
+
   Future<List<PhotoModel>> getPhotosByAlbumId({required int albumId});
 }
 
@@ -18,6 +20,11 @@ class AlbumRemoteDataSourceImpl extends AlbumRemoteDataSource {
   @override
   Future<List<AlbumModel>> getAlbums() async {
     return await _api.getAlbums();
+  }
+
+  @override
+  Future<List<PhotoModel>> getAllPhotos() async {
+    return await _api.getAllPhotos();
   }
 
   @override

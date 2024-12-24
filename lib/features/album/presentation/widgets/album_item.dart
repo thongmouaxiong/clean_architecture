@@ -38,10 +38,11 @@ class AlbumItem extends StatelessWidget {
               ),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (_, index) {
+                final Photo photo = photos[index];
                 return Stack(
                   children: [
                     AppImage(
-                      url: "https://via.placeholder.com/600/d32776",
+                      url: photo.url,
                       borderRadius: index.cornerBorderRadius(10),
                     ),
                     if (index == 3 && photos.length > 3)

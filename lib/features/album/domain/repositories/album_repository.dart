@@ -6,6 +6,8 @@ import 'package:either_dart/either.dart';
 abstract class AlbumRepository {
   Future<Either<AppError, List<Album>>> getAlbums();
 
+  Future<Either<AppError, List<Photo>>> getAllPhotos();
+
   Future<Either<AppError, List<Photo>>> getPhotosByAlbumId({
     required int albumId,
   });

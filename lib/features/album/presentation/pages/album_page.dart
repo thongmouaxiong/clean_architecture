@@ -31,6 +31,7 @@ class AlbumPage extends StatelessWidget {
               final Album album = state.albums[index];
               return AlbumItem(
                 album: album,
+                photos: state.groupPhoto[album.id] ?? [],
                 onTap: () {
                   AppNavigator.pushNamed(
                     routeName: RouteName.photoPage,

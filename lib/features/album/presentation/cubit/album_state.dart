@@ -12,15 +12,23 @@ class AlbumState extends Equatable {
   final StateStatus status;
   final List<Album> albums;
   final List<Photo> photos;
+  final Map<int?, List<Photo>> groupPhoto;
   final AppError? error;
 
   const AlbumState({
     this.status = StateStatus.initail,
     this.albums = const [],
     this.photos = const [],
+    this.groupPhoto = const {},
     this.error,
   });
 
   @override
-  List<Object?> get props => [status, albums, photos, error];
+  List<Object?> get props => [
+        status,
+        albums,
+        photos,
+        groupPhoto,
+        error,
+      ];
 }

@@ -28,6 +28,18 @@ class AlbumRepositoryImpl extends AlbumRepository {
   }
 
   @override
+  Future<Either<AppError, List<Photo>>> getAllPhotos() async {
+    try {
+      final photos = await _albumRemote.getAllPhotos();
+      return Right(photos);
+    } on DioException catch (err) {
+      return Left(err.getError(defaultMsg: ErrorMessage.loadPhotoFail));
+    } catch (err) {
+      return const Left(AppError(msg: ErrorMessage.loadPhotoFail));
+    }
+  }
+
+  @override
   Future<Either<AppError, List<Photo>>> getPhotosByAlbumId({
     required int albumId,
   }) async {
