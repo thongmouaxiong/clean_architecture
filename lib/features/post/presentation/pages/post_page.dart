@@ -1,5 +1,6 @@
 import 'package:clean_architecture/core/constants/enum/alert_type.dart';
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
+import 'package:clean_architecture/core/global/widgets/app_loading.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/router/route_name.dart';
 import 'package:clean_architecture/core/utils/app_dialog.dart';
@@ -29,44 +30,43 @@ class PostPage extends StatelessWidget {
             title: const Text("Post"),
             leading: const SizedBox.shrink(),
           ),
-          body: state.status == StateStatus.loading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(20),
-                        itemCount: state.posts.length,
-                        itemBuilder: (context, index) {
-                          Post post = state.posts[index];
-                          return PostItemWidget(
-                            post: post,
-                            onTap: (post) async {
-                              final data = await AppNavigator.pushNamed(
-                                routeName: RouteName.postDetailPage,
-                                arguments: post,
-                              );
-                              if (data != null && data is Post) {
-                                postCubit.resetPosts(post: data);
-                              }
-                            },
+          body: AppLoading.post(
+            isLoading: state.status == StateStatus.loading,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(20),
+                    itemCount: state.posts.length,
+                    itemBuilder: (context, index) {
+                      Post post = state.posts[index];
+                      return PostItemWidget(
+                        post: post,
+                        onTap: (post) async {
+                          final data = await AppNavigator.pushNamed(
+                            routeName: RouteName.postDetailPage,
+                            arguments: post,
                           );
+                          if (data != null && data is Post) {
+                            postCubit.resetPosts(post: data);
+                          }
                         },
-                        separatorBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: Divider(height: 1.5),
-                          );
-                        },
-                      ),
-                    ],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        child: Divider(height: 1.5),
+                      );
+                    },
                   ),
-                ),
+                ],
+              ),
+            ),
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               final data = await AppNavigator.pushNamed(

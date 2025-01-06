@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AppImage extends StatelessWidget {
   final String? url;
   final Widget? errorImage;
+  final Widget? loadingImage;
 
   final double? width;
   final double? height;
@@ -16,6 +17,7 @@ class AppImage extends StatelessWidget {
     super.key,
     this.url,
     this.errorImage,
+    this.loadingImage,
     this.height,
     this.width,
     this.fit,
@@ -50,9 +52,10 @@ class AppImage extends StatelessWidget {
                 return errorWidget;
               },
               progressIndicatorBuilder: (context, error, url) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return loadingImage ??
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    );
               },
             )
           : errorWidget,
