@@ -25,6 +25,7 @@ dependencies:
   gap: ^3.0.1
   cached_network_image: ^3.4.1
   collection: ^1.18.0
+  skeletons_forked: ^0.0.4
   
 
 dev_dependencies:
