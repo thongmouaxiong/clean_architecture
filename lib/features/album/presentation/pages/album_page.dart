@@ -1,3 +1,5 @@
+import 'package:clean_architecture/core/constants/enum/state_status.dart';
+import 'package:clean_architecture/core/global/widgets/app_loading.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/router/route_name.dart';
 import 'package:clean_architecture/features/album/domain/entities/album.dart';
@@ -19,27 +21,30 @@ class AlbumPage extends StatelessWidget {
             title: const Text("Albums"),
             leading: const SizedBox.shrink(),
           ),
-          body: GridView.builder(
-            itemCount: state.albums.length,
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10,
+          body: AppLoading.album(
+            isLoading: state.status == StateStatus.loading,
+            child: GridView.builder(
+              itemCount: state.albums.length,
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+              ),
+              itemBuilder: (_, index) {
+                final Album album = state.albums[index];
+                return AlbumItem(
+                  album: album,
+                  photos: state.groupPhoto[album.id] ?? [],
+                  onTap: () {
+                    AppNavigator.pushNamed(
+                      routeName: RouteName.photoPage,
+                      arguments: album,
+                    );
+                  },
+                );
+              },
             ),
-            itemBuilder: (_, index) {
-              final Album album = state.albums[index];
-              return AlbumItem(
-                album: album,
-                photos: state.groupPhoto[album.id] ?? [],
-                onTap: () {
-                  AppNavigator.pushNamed(
-                    routeName: RouteName.photoPage,
-                    arguments: album,
-                  );
-                },
-              );
-            },
           ),
         );
       },
