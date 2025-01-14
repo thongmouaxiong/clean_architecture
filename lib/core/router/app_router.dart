@@ -5,6 +5,8 @@ import 'package:clean_architecture/features/album/presentation/cubit/album_cubit
 import 'package:clean_architecture/features/album/presentation/pages/photo_page.dart';
 import 'package:clean_architecture/features/home/presentation/cubit/home_cubit.dart';
 import 'package:clean_architecture/features/home/presentation/pages/home_page.dart';
+import 'package:clean_architecture/features/login/presentation/cubit/login_cubit.dart';
+import 'package:clean_architecture/features/login/presentation/pages/login_page.dart';
 import 'package:clean_architecture/features/post/domain/entities/post.dart';
 import 'package:clean_architecture/features/post/presentation/cubit/post_cubit.dart';
 import 'package:clean_architecture/features/post/presentation/pages/create_post_page.dart';
@@ -72,6 +74,16 @@ class AppRouter {
             );
           },
           settings: const RouteSettings(name: RouteName.createPostPage),
+        );
+      case RouteName.loginPage:
+        return MaterialPageRoute(
+          builder: (_) {
+            return BlocProvider<LoginCubit>(
+              create: (_) => sl<LoginCubit>()..init(),
+              child: const LoginPage(),
+            );
+          },
+          settings: const RouteSettings(name: RouteName.loginPage),
         );
       default:
         return MaterialPageRoute(builder: (_) {

@@ -9,10 +9,14 @@ abstract class UsecaseNoParam<T> {
   Future<Either<AppError, T>> call();
 }
 
-abstract class UsecaseNoT {
+abstract class UsecaseNoType {
   Future<Either<AppError, Null>> call();
 }
 
 abstract class UsecaseNormal<T, P> {
   Either<AppError, T> call(P param);
+}
+
+abstract class UsecaseNormalNoParam<T> {
+  Either<AppError, T> call();
 }

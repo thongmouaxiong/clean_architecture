@@ -26,6 +26,7 @@ dependencies:
   cached_network_image: ^3.4.1
   collection: ^1.18.0
   skeletons_forked: ^0.0.4
+  google_sign_in: ^6.2.2
   
 
 dev_dependencies:

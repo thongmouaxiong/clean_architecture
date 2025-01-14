@@ -52,8 +52,8 @@ class AppDialog {
 
   static Future<void> alert({
     AlertType type = AlertType.success,
-    String title = "",
-    String desc = "",
+    String? title,
+    String? desc,
   }) async {
     await show(
       height: 30.height,
@@ -64,10 +64,10 @@ class AppDialog {
           type.getIcon,
           const Gap(20),
           Text(
-            title,
+            title ?? "",
             style: _context?.textTheme.bodyLarge,
           ),
-          Text(desc),
+          Text(desc ?? ""),
         ],
       ),
     );
