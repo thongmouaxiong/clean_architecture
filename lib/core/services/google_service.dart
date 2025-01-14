@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable()
+@LazySingleton()
 class GoogleService {
   final GoogleSignIn _googleSignIn;
 
@@ -10,7 +10,8 @@ class GoogleService {
   GoogleSignInAccount? get currentUser => _googleSignIn.currentUser;
 
   Future<GoogleSignInAccount?> login() async {
-    return await _googleSignIn.signIn();
+    final GoogleSignInAccount? account = await _googleSignIn.signIn();
+    return account;
   }
 
   Future<void> logout() async {
