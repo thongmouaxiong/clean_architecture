@@ -5,7 +5,20 @@ PODS:
   - AppAuth/Core (1.7.6)
   - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
+  - FBAEMKit (17.1.0):
+    - FBSDKCoreKit_Basics (= 17.1.0)
+  - FBSDKCoreKit (17.1.0):
+    - FBAEMKit (= 17.1.0)
+    - FBSDKCoreKit_Basics (= 17.1.0)
+  - FBSDKCoreKit_Basics (17.1.0)
+  - FBSDKLoginKit (17.1.0):
+    - FBSDKCoreKit (= 17.1.0)
   - Flutter (1.0.0)
+  - flutter_facebook_auth (7.1.1):
+    - FBSDKLoginKit (~> 17.1.0)
+    - Flutter
+  - flutter_secure_storage (6.0.0):
+    - Flutter
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
     - Flutter
@@ -33,6 +46,8 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
@@ -40,6 +55,10 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - FBAEMKit
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKLoginKit
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
@@ -47,6 +66,10 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_facebook_auth:
+    :path: ".symlinks/plugins/flutter_facebook_auth/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   path_provider_foundation:
@@ -56,7 +79,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
+  FBAEMKit: cb719c53575a3be86ea873279f30d6a2c4e15881
+  FBSDKCoreKit: ecdb980a24633ccb012700299ceb16d0235e14d2
+  FBSDKCoreKit_Basics: 045101c4a9ef10c845347424d73a29aae02c3e43
+  FBSDKLoginKit: 69eb59b2f839aba635616df6e422acd0ca88030a
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_facebook_auth: 8a9ad5fbfc25b77e7a53ea8986866950b27edcae
+  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
   google_sign_in_ios: 0ab078e60da6dfe23cbc55c83502b52bba1aad63
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de

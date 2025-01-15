@@ -27,6 +27,7 @@ dependencies:
   collection: ^1.18.0
   skeletons_forked: ^0.0.4
   google_sign_in: ^6.2.2
+  flutter_facebook_auth: ^7.1.0
   
 
 dev_dependencies:

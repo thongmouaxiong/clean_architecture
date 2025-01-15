@@ -3,6 +3,7 @@ import 'package:clean_architecture/core/global/entities/app_error.dart';
 import 'package:clean_architecture/features/login/data/data_sources/login_remote_data_source.dart';
 import 'package:clean_architecture/features/login/domain/repositories/login_repository.dart';
 import 'package:either_dart/either.dart';
+import 'package:flutter_facebook_auth_platform_interface/src/login_result.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 
@@ -34,6 +35,19 @@ class LoginRepositoryImpl extends LoginRepository {
       return const Left(AppError(
         title: ErrorMessage.defaultMessage,
         msg: ErrorMessage.loginGoogleFail,
+      ));
+    }
+  }
+
+  @override
+  Future<Either<AppError, LoginResult?>> loginWithFacebook() async {
+    try {
+      final user = await _loginRemote.loginWithFacebook();
+      return Right(user);
+    } catch (err) {
+      return const Left(AppError(
+        title: ErrorMessage.defaultMessage,
+        msg: ErrorMessage.loginFacebookFail,
       ));
     }
   }

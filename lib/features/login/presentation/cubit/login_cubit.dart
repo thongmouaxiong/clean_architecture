@@ -1,5 +1,6 @@
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
 import 'package:clean_architecture/features/login/domain/usecase/get_current_google_user.dart';
+import 'package:clean_architecture/features/login/domain/usecase/login_with_facebook_usecase.dart';
 import 'package:clean_architecture/features/login/domain/usecase/login_with_google_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clean_architecture/features/login/presentation/cubit/login_state.dart';
@@ -9,9 +10,12 @@ import 'package:injectable/injectable.dart';
 class LoginCubit extends Cubit<LoginState> {
   final GetCurrentGoogleUser _getCurrentGoogleUser;
   final LoginWithGoogleUsecase _loginWithGoogleUsecase;
+  final LoginWithFacebookUsecase _loginWithFacebookUsecase;
+
   LoginCubit(
     this._getCurrentGoogleUser,
     this._loginWithGoogleUsecase,
+    this._loginWithFacebookUsecase,
   ) : super(const LoginState());
 
   void init() {
@@ -38,6 +42,21 @@ class LoginCubit extends Cubit<LoginState> {
     emit(state.copyWith(status: StateStatus.processing));
 
     final resLogin = await _loginWithGoogleUsecase();
+
+    if (resLogin.isLeft) {
+      emit(state.copyWith(
+        status: StateStatus.error,
+        error: resLogin.left,
+      ));
+    } else {
+      emit(state.copyWith(status: StateStatus.success));
+    }
+  }
+
+  Future<void> onLoginWithFacebook() async {
+    emit(state.copyWith(status: StateStatus.processing));
+
+    final resLogin = await _loginWithFacebookUsecase();
 
     if (resLogin.isLeft) {
       emit(state.copyWith(
