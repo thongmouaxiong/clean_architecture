@@ -4,6 +4,7 @@ import 'package:clean_architecture/core/constants/api_path.dart';
 import 'package:clean_architecture/core/services/api_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -42,6 +43,8 @@ void dependencyInjection() async {
   }
 
   sl.registerLazySingleton<GoogleSignIn>(() => googleSignIn);
+
+  sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
 
   sl.init();
 }

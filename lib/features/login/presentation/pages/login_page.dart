@@ -41,7 +41,11 @@ class LoginPage extends StatelessWidget {
                       ElevatedButton(
                         onPressed: loginCubit.onLoginWithGoogle,
                         child: const Text("Login with Google"),
-                      )
+                      ),
+                      ElevatedButton(
+                        onPressed: loginCubit.onLoginWithFacebook,
+                        child: const Text("Login with Facebook"),
+                      ),
                     ],
                   ),
           ),
