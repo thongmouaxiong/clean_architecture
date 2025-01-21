@@ -16,19 +16,6 @@ class LoginRepositoryImpl extends LoginRepository {
   LoginRepositoryImpl(this._loginRemote);
 
   @override
-  Either<AppError, GoogleSignInAccount?> currentGoogleUser() {
-    try {
-      final user = _loginRemote.currentGoogleUser();
-      return Right(user);
-    } catch (err) {
-      return const Left(AppError(
-        title: ErrorMessage.defaultMessage,
-        msg: ErrorMessage.getGoogleUserFail,
-      ));
-    }
-  }
-
-  @override
   Future<Either<AppError, GoogleSignInAccount?>> loginWithGoogle() async {
     try {
       final user = await _loginRemote.loginWithGoogle();

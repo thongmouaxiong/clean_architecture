@@ -1,7 +1,8 @@
+import 'package:clean_architecture/core/utils/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static ThemeData themeData() {
+  static ThemeData themeData(BuildContext context) {
     return ThemeData(
       useMaterial3: false,
       scaffoldBackgroundColor: Colors.white,
@@ -41,6 +42,28 @@ class AppTheme {
       ),
       progressIndicatorTheme:
           const ProgressIndicatorThemeData(color: Colors.blue),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(10),
+          backgroundColor: Colors.blue.shade600,
+          foregroundColor: Colors.white,
+          minimumSize: Size(context.width, 48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.all(10),
+          side: const BorderSide(color: Colors.blue, width: 1.8),
+          foregroundColor: Colors.blue,
+          minimumSize: Size(context.width, 48),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+      ),
     );
   }
 }

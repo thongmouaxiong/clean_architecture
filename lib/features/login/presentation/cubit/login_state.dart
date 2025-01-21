@@ -9,14 +9,14 @@ part 'login_state.g.dart';
 class LoginState extends Equatable {
   final StateStatus status;
   final AppError? error;
-  final bool alreadLogined;
+  final bool alreadyLogined;
 
   const LoginState({
     this.status = StateStatus.initail,
     this.error,
-    this.alreadLogined = false,
+    this.alreadyLogined = false,
   });
 
   @override
-  List<Object?> get props => [status, error, alreadLogined];
+  List<Object?> get props => [status, error, alreadyLogined];
 }

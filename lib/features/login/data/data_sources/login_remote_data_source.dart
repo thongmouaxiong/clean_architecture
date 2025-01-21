@@ -7,7 +7,6 @@ import 'package:injectable/injectable.dart';
 
 abstract class LoginRemoteDataSource {
   Future<GoogleSignInAccount?> loginWithGoogle();
-  GoogleSignInAccount? currentGoogleUser();
   Future<LoginResult?> loginWithFacebook();
 
   Future<UserCredential?> loginWithFirebase(LoginRegisterData data);
@@ -29,22 +28,37 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
   @override
   Future<GoogleSignInAccount?> loginWithGoogle() async {
-    return await _googleService.login();
-  }
+    final GoogleSignInAccount? googleAccount = await _googleService.login();
 
-  @override
-  GoogleSignInAccount? currentGoogleUser() {
-    return _googleService.currentUser;
+    final googleAuth = await googleAccount?.authentication;
+
+    OAuthCredential? oAuthCredential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    await _firebaseAuth.signInWithCredential(oAuthCredential);
+
+    return googleAccount;
   }
 
   @override
   Future<LoginResult?> loginWithFacebook() async {
-    return await _facebookAuth.login();
+    final LoginResult facebookAccount = await _facebookAuth.login();
+
+    final AccessToken? facebookToken = facebookAccount.accessToken;
+
+    final OAuthCredential oAuthCredential =
+        FacebookAuthProvider.credential(facebookToken?.tokenString ?? "");
+
+    await _firebaseAuth.signInWithCredential(oAuthCredential);
+
+    return facebookAccount;
   }
 
   @override
   Future<UserCredential?> loginWithFirebase(LoginRegisterData data) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
+    return await _firebaseAuth.signInWithEmailAndPassword(
       email: data.email,
       password: data.password,
     );
@@ -52,7 +66,7 @@ class LoginRemoteDataSourceImpl extends LoginRemoteDataSource {
 
   @override
   Future<UserCredential?> registerWithFirebase(LoginRegisterData data) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+    return await _firebaseAuth.createUserWithEmailAndPassword(
       email: data.email,
       password: data.password,
     );

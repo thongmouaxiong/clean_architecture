@@ -7,11 +7,12 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class LoginRepository {
   Future<Either<AppError, GoogleSignInAccount?>> loginWithGoogle();
-  Either<AppError, GoogleSignInAccount?> currentGoogleUser();
-  
+
   Future<Either<AppError, LoginResult?>> loginWithFacebook();
 
-  Future<Either<AppError, UserCredential?>> loginWithFirebase(LoginRegisterData data);
-  Future<Either<AppError, UserCredential?>> registerWithFirebase(LoginRegisterData data);
+  Future<Either<AppError, UserCredential?>> loginWithFirebase(
+      LoginRegisterData data);
+  Future<Either<AppError, UserCredential?>> registerWithFirebase(
+      LoginRegisterData data);
   Either<AppError, User?> currentFirebaseUser();
 }
