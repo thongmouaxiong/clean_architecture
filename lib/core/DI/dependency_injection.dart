@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:clean_architecture/core/constants/api_path.dart';
 import 'package:clean_architecture/core/services/api_service.dart';
+import 'package:clean_architecture/firebase_options.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +22,9 @@ final sl = GetIt.instance;
 )
 void dependencyInjection() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   Dio dio = Dio(BaseOptions(baseUrl: ApiPath.baseUrl));
 
@@ -45,6 +51,8 @@ void dependencyInjection() async {
   sl.registerLazySingleton<GoogleSignIn>(() => googleSignIn);
 
   sl.registerLazySingleton<FacebookAuth>(() => FacebookAuth.instance);
+
+  sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
   sl.init();
 }
