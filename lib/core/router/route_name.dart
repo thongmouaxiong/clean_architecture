@@ -5,4 +5,5 @@ class RouteName {
   static const String createPostPage = "/create-post-page";
   static const String photoPage = "/photo-page";
   static const String loginPage = "/login-page";
+  static const String registerPage = "/register-page";
 }

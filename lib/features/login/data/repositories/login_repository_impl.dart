@@ -74,7 +74,7 @@ class LoginRepositoryImpl extends LoginRepository {
     LoginRegisterData data,
   ) async {
     try {
-      final user = await _loginRemote.loginWithFirebase(data);
+      final user = await _loginRemote.registerWithFirebase(data);
       return Right(user);
     } catch (err) {
       return const Left(AppError(

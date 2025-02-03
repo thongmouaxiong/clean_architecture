@@ -1,10 +1,10 @@
 import 'package:clean_architecture/core/constants/enum/alert_type.dart';
 import 'package:clean_architecture/core/constants/enum/state_status.dart';
-import 'package:clean_architecture/core/constants/local_image.dart';
 import 'package:clean_architecture/core/router/app_navigator.dart';
 import 'package:clean_architecture/core/router/route_name.dart';
 import 'package:clean_architecture/core/utils/app_dialog.dart';
 import 'package:clean_architecture/core/utils/extension/context_extension.dart';
+import 'package:clean_architecture/core/utils/extension/form_state_extension.dart';
 import 'package:clean_architecture/features/login/presentation/cubit/login_cubit.dart';
 import 'package:clean_architecture/features/login/presentation/cubit/login_state.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:gap/gap.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
         return previous.status != current.status;
       },
       listener: (context, state) {
-        if (state.status == StateStatus.success || state.alreadyLogined) {
+        if (state.status == StateStatus.success) {
           AppNavigator.pushNamed(routeName: RouteName.homePage);
         } else if (state.status == StateStatus.error) {
           AppDialog.alert(
@@ -46,7 +46,7 @@ class LoginPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "LOGIN TO APP",
+                            "REGISTER ACCOUNT",
                             style: context.textTheme.titleLarge?.copyWith(
                               color: Colors.blue,
                               fontSize: 30,
@@ -78,7 +78,35 @@ class LoginPage extends StatelessWidget {
                               if (value != null) {
                                 return null;
                               }
+                              if ({value ?? ""}.length < 6) {
+                                return "Password must be more then 6 digit";
+                              }
+
                               return "Enter password !";
+                            },
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                          ),
+                          const Gap(20),
+                          FormBuilderTextField(
+                            name: "confirm_password",
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: "confirm password",
+                            ),
+                            validator: (confirmPassword) {
+                              if (confirmPassword != null) {
+                                return null;
+                              }
+                              final String? password =
+                                  loginCubit.formKey.formData?["password"];
+
+                              if (confirmPassword != password) {
+                                return "Password was not match !";
+                              }
+
+                              return "Enter confirm password !";
                             },
                             onTapOutside: (event) {
                               FocusManager.instance.primaryFocus?.unfocus();
@@ -86,38 +114,24 @@ class LoginPage extends StatelessWidget {
                           ),
                           const Gap(40),
                           ElevatedButton(
-                            onPressed: loginCubit.onLoginWithFirebase,
+                            onPressed: loginCubit.onRegisterWithFirebase,
                             child: Text(
-                              "Login",
+                              "Register",
                               style: context.textTheme.bodyLarge
                                   ?.copyWith(color: Colors.white),
                             ),
                           ),
-                          const Gap(20),
+                          const Gap(40),
+                          Text(
+                            "Already have account",
+                            style: context.textTheme.bodyMedium,
+                          ),
+                          const Gap(10),
                           OutlinedButton(
                             onPressed: () {
-                              AppNavigator.pushNamed(
-                                routeName: RouteName.registerPage,
-                              );
+                              AppNavigator.pop();
                             },
-                            child: const Text("Register"),
-                          ),
-                          const Gap(60),
-                          const Text("Login with: "),
-                          const Gap(20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: loginCubit.onLoginWithGoogle,
-                                child: LocalImage.google,
-                              ),
-                              const Gap(40),
-                              GestureDetector(
-                                onTap: loginCubit.onLoginWithFacebook,
-                                child: LocalImage.facebook,
-                              ),
-                            ],
+                            child: const Text("Login"),
                           ),
                         ],
                       ),
